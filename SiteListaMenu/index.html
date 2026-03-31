@@ -1,3 +1,18 @@
+    <?php
+// Página padrão
+$page = $_GET['page'] ?? 'home';
+
+// Whitelist de páginas permitidas
+$allowedPages = ['home', 'sobre'];
+
+// Se a página não estiver na whitelist, cai em erro
+if (!in_array($page, $allowedPages)) {
+    $page = '404';
+}
+
+// Caminho absoluto seguro
+$path = __DIR__ . "/pages/$home.php";
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,24 +22,20 @@
 </head>
 <body>
 
-    <?php include 'includes/roof.php'; ?>
+<?php include __DIR__ . '/includes/roof.php'; ?>
 
-    <main id="body">
-        <?php
-            $page = $_GET['home'] ?? 'home';
+<main id="body">
+    <?php
+        if (file_exists($path)) {
+            include $path;
+        } else {
+            echo "<h2>Página não encontrada</h2>";
+        }
+    ?>
+</main>
 
-            $path = "pages/$phome.php";
+<?php include __DIR__ . '/includes/footer.php'; ?>
 
-            if (file_exists($path)) {
-                include $path;
-            } else {
-                echo "<h2>Página não encontrada</h2>";
-            }
-        ?>
-    </main>
-
-    <?php include 'includes/footer.php'; ?>
-
-    <script src="assets/js/script.js"></script>
+<script src="assets/js/script.js"></script>
 </body>
 </html>
